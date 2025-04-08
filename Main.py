@@ -1,6 +1,6 @@
 import pygame
 pygame.init()
-pygame.display.set_caption("Platformer game")
+pygame.display.set_caption("Space_Invaders!")
 Game_Screen = pygame.display.set_mode((1000, 600))
 Tick_Speed = pygame.time.Clock()
 Time = 0
@@ -34,20 +34,26 @@ class Player:
             elif event.key == Key3:
                 self.MoveUp = False
     def Physics(self):
+        if self.Y_Pos + self.Height >= 550:
+            self.OnGround = True
+        else:
+            self.OnGround = False
         if self.MoveLeft:
             self.X_Vol = -3
         elif self.MoveRight:
             self.X_Vol = 3
         else:
             self.X_Vol = 0
+        if self.MoveUp == True and self.OnGround == True:
+            self.Y_Vol = -4
+        elif self.OnGround == False:
+            self.Y_Vol += .1
+        else:
+            self.Y_Vol = 0
         self.X_Pos += self.X_Vol
         self.Y_Pos += self.Y_Vol
-        if self.Y_Pos + self.Height >= 550:
-            self.OnGround = True
-        elif self.OnGround == False:
-            self.Y_Pos += 2
     def Draw(self):
-        pygame.draw.rect(Game_Screen, (200, 200, 100), (self.X_Pos, self.Y_Pos, 60, 20))
+        pygame.draw.rect(Game_Screen, (200, 200, 100), (self.X_Pos, self.Y_Pos, self.Width, self.Height))
 
 player = Player()
 
