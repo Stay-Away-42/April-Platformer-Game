@@ -1,6 +1,6 @@
 import pygame
 pygame.init()
-pygame.display.set_caption("Space_Invaders!")
+pygame.display.set_caption("Platformer game")
 Game_Screen = pygame.display.set_mode((1000, 600))
 Tick_Speed = pygame.time.Clock()
 Time = 0
