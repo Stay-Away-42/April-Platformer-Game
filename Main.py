@@ -10,7 +10,7 @@ class Player:
     def __init__(self):
         self.HP = 100
         self.light = 100
-        self.ST = 1
+        self.STM = 1
         self.X_Pos = 400
         self.Y_Pos = 400
         self.Width = 60
@@ -21,7 +21,9 @@ class Player:
         self.MoveRight = False
         self.jumpnum = 2
         self.OnGround = False
-    def Input(self, Key1, Key2, Key3):
+        self.sprint = False
+        self.lastmove = "N"
+    def Input(self, Key1, Key2, Key3, Key4, Key5):
         if event.type == pygame.KEYDOWN:
             if event.key == Key1:
                 self.MoveLeft = True
@@ -29,18 +31,33 @@ class Player:
                 self.MoveRight = True
             elif event.key == Key3:
                 self.Jump()
+            elif event.key == Key4:
+                self.sprint = True
+            elif event.key == Key5:
+                self.dash()
         elif event.type == pygame.KEYUP:
             if event.key == Key1:
                 self.MoveLeft = False
             elif event.key == Key2:
                 self.MoveRight = False
+            elif event.key == Key4:
+                self.sprint = False
     def Jump(self):
          if self.OnGround == True or self.jumpnum > 0:
-            self.Y_Vol -= 5
+            self.Y_Vol = -5
             print("jump")
             if self.OnGround == False:
                 self.jumpnum -= 1
             self.OnGround = False
+    def dash(self):
+        if self.STM != 0:
+            print(self.lastmove)
+            self.STM += -1
+            print(self.STM)
+            if self.lastmove == "R":
+                self.X_Pos += 50
+            elif self.lastmove == "L":
+                self.X_Pos += -50
     def Physics(self):
         if self.Y_Pos + self.Height >= 550:
             self.OnGround = True
@@ -48,9 +65,17 @@ class Player:
         else:
             self.OnGround = False
         if self.MoveLeft:
-            self.X_Vol = -3
+            if self.sprint == True:
+                self.X_Vol = -6
+            else:
+                self.X_Vol = -3
+            self.lastmove = "L"
         elif self.MoveRight:
-            self.X_Vol = 3
+            if self.sprint == True:
+                self.X_Vol = 6
+            else:
+                self.X_Vol = 3
+            self.lastmove = "R"
         else:
             self.X_Vol = 0
         if self.OnGround == False:
@@ -70,7 +95,7 @@ while Playing_Game:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Playing_Game = False
-        player.Input(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP)
+        player.Input(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_z, pygame.K_x)
     player.Physics()
     Game_Screen.fill((0, 0, 0))
     pygame.draw.rect(Game_Screen, (100, 100, 100), (0, 550, 1000, 50))
