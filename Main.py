@@ -72,7 +72,10 @@ class Player:
             self.Y_Vol += 10
         pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 10, self.Y_Pos + 45, 80, 15)) # update after platforms
     def sideattack(self):
-        pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 10, self.Y_Pos, 80, 15))
+        if self.lastmove == "R":
+            pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos + 60, self.Y_Pos, 25, 60))
+        if self.lastmove == "L":
+            pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 60, self.Y_Pos, 25, 60))
 
     def Physics(self):
         if self.Y_Pos + self.Height >= 550:
