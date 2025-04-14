@@ -64,20 +64,21 @@ class Player:
             self.STM += -1
             print(self.STM)
             if self.lastmove == "R":
-                self.X_Pos += 50
+                self.X_Vol += 50
             elif self.lastmove == "L":
-                self.X_Pos += -50
+                self.X_Vol += -50
     def grounding(self):
         if self.OnGround == False:    
             self.Y_Vol += 10
-        pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 10, self.Y_Pos + 45, 80, 15))
+        pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 10, self.Y_Pos + 45, 80, 15)) # update after platforms
     def sideattack(self):
-        pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 10, self.Y_Pos + 45, 80, 15))
+        pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 10, self.Y_Pos, 80, 15))
 
     def Physics(self):
         if self.Y_Pos + self.Height >= 550:
             self.OnGround = True
             self.jumpnum = 2
+            self.STM = 1
             
         else:
             self.OnGround = False
@@ -118,12 +119,12 @@ player = Player()
 while Playing_Game:
     Tick_Speed.tick(60)
     Time += 1
+    Game_Screen.fill((0, 0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Playing_Game = False
         player.Input(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_z, pygame.K_x, pygame.K_DOWN, pygame.K_c)
     player.Physics()
-    Game_Screen.fill((0, 0, 0))
     pygame.draw.rect(Game_Screen, (100, 100, 100), (0, 550, 1000, 50))
     player.Draw()
     pygame.display.flip()
