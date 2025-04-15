@@ -70,12 +70,12 @@ class Player:
     def grounding(self):
         if self.OnGround == False:    
             self.Y_Vol += 10
-        pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 10, self.Y_Pos + 45, 80, 15)) # update after platforms
+            pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 10, self.Y_Pos + 45, 80, 15)) # update after platforms
     def sideattack(self):
         if self.lastmove == "R":
             pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos + 60, self.Y_Pos, 25, 60))
         if self.lastmove == "L":
-            pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 60, self.Y_Pos, 25, 60))
+            pygame.draw.rect(Game_Screen, (255, 255, 255), (self.X_Pos - 25 , self.Y_Pos, 25, 60))
 
     def Physics(self):
         if self.Y_Pos + self.Height >= 550:
@@ -107,6 +107,7 @@ class Player:
             self.Y_Vol += .1
         elif self.OnGround == True and self.Y_Vol > 0:
             self.Y_Vol = 0
+            self.Y_Pos = 550 - self.Height
         self.X_Pos += self.X_Vol
         self.Y_Pos += self.Y_Vol
     def Draw(self):
