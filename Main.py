@@ -9,7 +9,7 @@ Playing_Game = True
 class Player:
     def __init__(self):
         self.HP = 100
-        self.light = 100
+        self.light = 300
         self.STM = 1
         self.X_Pos = 400
         self.Y_Pos = 400
@@ -24,7 +24,7 @@ class Player:
         self.sprint = False
         self.lastmove = "N"
         self.crouch = False
-    def Input(self, Key1, Key2, Key3, Key4, Key5, Key6, Key7):
+    def Input(self, Key1, Key2, Key3, Key4, Key5, Key6, Key7, Key8):
         if event.type == pygame.KEYDOWN:
             if event.key == Key1:
                 self.MoveLeft = True
@@ -81,7 +81,7 @@ class Player:
         if self.Y_Pos + self.Height >= 550:
             self.OnGround = True
             self.jumpnum = 2
-            self.STM = 1
+            self.STM = 3
             
         else:
             self.OnGround = False
@@ -110,6 +110,20 @@ class Player:
             self.Y_Pos = 550 - self.Height
         self.X_Pos += self.X_Vol
         self.Y_Pos += self.Y_Vol
+    
+    def UI(self):
+        pygame.draw.rect(Game_Screen, (255, 255, 255), (0, 5, 300, 30))
+        pygame.draw.rect(Game_Screen, (200, 0, 0), (0, 40, self.HP, 10))
+        if self.STM == 1:
+            pygame.draw.rect(Game_Screen, (0, 200, 0), (0, 55, 30, 10))
+        elif self.STM == 2:
+            pygame.draw.rect(Game_Screen, (0, 200, 0), (0, 55, 30, 10))
+            pygame.draw.rect(Game_Screen, (0, 200, 0), (35, 55, 30, 10))
+        elif self.STM == 3:
+            pygame.draw.rect(Game_Screen, (0, 200, 0), (0, 55, 30, 10))
+            pygame.draw.rect(Game_Screen, (0, 200, 0), (35, 55, 30, 10))
+            pygame.draw.rect(Game_Screen, (0, 200, 0), (70, 55, 30, 10))
+    
     def Draw(self):
         if self.crouch == True:
             self.Height = 30
@@ -127,9 +141,10 @@ while Playing_Game:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Playing_Game = False
-        player.Input(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_z, pygame.K_x, pygame.K_DOWN, pygame.K_c)
+        player.Input(pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_z, pygame.K_x, pygame.K_DOWN, pygame.K_c, pygame.K_f)
     player.Physics()
     pygame.draw.rect(Game_Screen, (100, 100, 100), (0, 550, 1000, 50))
+    player.UI()
     player.Draw()
     pygame.display.flip()
     
